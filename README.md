@@ -107,5 +107,15 @@ The application predicts the MSRP (Manufacturer Suggested Retail Price) of a car
 
 Gopinath B
 
-```
-```
+APP : 
+<img width="1312" height="807" alt="image" src="https://github.com/user-attachments/assets/93b620c3-8092-4195-a3c2-60d94540d3b4" />
+
+Prediction : 
+
+<img width="1280" height="247" alt="image" src="https://github.com/user-attachments/assets/c6b321a3-10a7-4259-9379-f03576b227bf" />
+
+r2 & MAE Score : 
+
+<img width="1280" height="477" alt="image" src="https://github.com/user-attachments/assets/567862ca-4a5f-4327-a6a6-6a853517929f" />
+
+
