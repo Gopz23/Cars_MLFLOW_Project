@@ -1,11 +1,58 @@
 import pandas as pd
+import mlflow
+import mlflow.sklearn
+import joblib
+
+from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, r2_score
+
+from preprocess import clean_data
 
 
-def clean_data(df):
+# Load dataset
 
-    df['MSRP'] = df['MSRP'].replace('[\\$,]', '', regex=True).astype(float)
-    df['Invoice'] = df['Invoice'].replace('[\\$,]', '', regex=True).astype(float)
+df = pd.read_csv("data/Cars.csv")
 
-    df = df.dropna()
+# Clean data
 
-    return df
+df = clean_data(df)
+
+# Features and target
+
+X = df.drop("MSRP", axis=1)
+y = df["MSRP"]
+
+# Column selection
+
+categorical_cols = X.select_dtypes(include=['object']).columns
+numerical_cols = X.select_dtypes(exclude=['object']).columns
+
+# Pipelines
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('encoder', OneHotEncoder(handle_unknown='ignore'))
+])
+
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median'))
+])
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', categorical_transformer, categorical_cols),
+        ('num', numerical_transformer, numerical_cols)
+    ]
+)
+
+# Model
+
+model = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('regressor', RandomForestRegressor(
+    print("R2 Score:", r2)
